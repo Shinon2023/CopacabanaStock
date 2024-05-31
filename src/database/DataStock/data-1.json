@@ -1,0 +1,47 @@
+[
+  {
+    "#": 1,
+    "name": "Test",
+    "amount": 5,
+    "status": "In Stock",
+    "category": "Test",
+    "imageUrl": "/img/Test.png",
+    "date": "29/05/2024"
+  },
+  {
+    "#": 2,
+    "name": "Tile-Black",
+    "amount": 5,
+    "status": "In Stock",
+    "category": "Floor",
+    "imageUrl": "/img/Tile-Black.jpg",
+    "date": "26/05/2024"
+  },
+  {
+    "#": 3,
+    "name": "Tile-White",
+    "amount": 5,
+    "status": "In Stock",
+    "category": "Floor",
+    "imageUrl": "/img/Tile-White.jpg",
+    "date": "29/05/2023"
+  },
+  {
+    "#": 4,
+    "name": "Dining",
+    "amount": 5,
+    "status": "In Stock",
+    "category": "D",
+    "imageUrl": "/img/Dining.webp",
+    "date": "30/05/2024"
+  },
+  {
+    "#": 5,
+    "name": "awf",
+    "amount": 0,
+    "status": "Out Stock",
+    "category": "F",
+    "imageUrl": "/img/awf.webp",
+    "date": "30/05/2024"
+  }
+]

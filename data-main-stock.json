@@ -1,0 +1,44 @@
+[
+  {
+    "name": "Desk",
+    "amount": 30,
+    "status": "In Stock",
+    "category": "Office",
+    "imageUrl": "./img/item_3.jpg"
+  },
+  {
+    "name": "Bookshelf",
+    "amount": 16,
+    "status": "In Stock",
+    "category": "Living Room",
+    "imageUrl": "./img/item_6.jpg"
+  },
+  {
+    "name": "Sofa Set",
+    "amount": 0,
+    "status": "Out Stock",
+    "category": "Living Room",
+    "imageUrl": "./img/item_5.jpg"
+  },
+  {
+    "name": "Dining Table",
+    "amount": 56,
+    "status": "In Stock",
+    "category": "Dining Room",
+    "imageUrl": "./img/item_4.jpg"
+  },
+  {
+    "name": "Coffee Table",
+    "amount": 0,
+    "status": "Out Stock",
+    "category": "Living Room",
+    "imageUrl": "./img/item_2.jpg"
+  },
+  {
+    "name": "Armchair",
+    "amount": 25,
+    "status": "In Stock",
+    "category": "Living Room",
+    "imageUrl": "./img/item_1.jpg"
+  }
+]
