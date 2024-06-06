@@ -7,7 +7,6 @@ const {
   renameFileAsync,
   getCurrentDateTime,
 } = require("../utils/fileUtils");
-const { access } = require("fs");
 
 const router = express.Router();
 const filePaths = [
