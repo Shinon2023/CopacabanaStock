@@ -4,6 +4,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 const Login = () => {
+
   return (
     <>
       <div className="flex">
@@ -98,9 +99,7 @@ const Login = () => {
         </div>
         <div className="flex-1 flex flex-col p-4">
           <div className="bg-white p-6 rounded-lg h-full border-dashed border-2 border-gray-300">
-            <h1>
-                กรุณา Login ก่อน
-            </h1>
+            <h1>กรุณา Login ก่อน</h1>
           </div>
         </div>
       </div>

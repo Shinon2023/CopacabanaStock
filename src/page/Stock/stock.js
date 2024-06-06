@@ -204,7 +204,7 @@ const Stock = () => {
           handleCloseForm={handleCloseForm}
           handleSubmit={(e) => {
             e.preventDefault();
-            handleSubmit("http://localhost:5000/api/update-stock", {
+            handleSubmit("http://copacabanastock.com:5000/api/update-stock", {
               name: formData.name,
               amount: parseFloat(formData.amount),
             });
@@ -225,7 +225,7 @@ const Stock = () => {
             formDataToSubmit.append("amount", formData.amount);
             formDataToSubmit.append("image", formData.image);
             handleSubmit(
-              "http://localhost:5000/api/add-new-stock",
+              "http://copacabanastock.com:5000/api/add-new-stock",
               formDataToSubmit
             );
           }}
@@ -245,7 +245,7 @@ const Stock = () => {
             formDataToSubmit.append("amount", formData.amount);
             formDataToSubmit.append("image", formData.image);
             handleSubmit(
-              "http://localhost:5000/api/add-new-stock",
+              "http://copacabanastock.com:5000/api/add-new-stock",
               formDataToSubmit
             );
           }}
@@ -260,7 +260,7 @@ const Stock = () => {
           handleCloseForm={handleCloseForm}
           handleSubmit={(e) => {
             e.preventDefault();
-            handleSubmit("http://localhost:5000/api/pick-stock", {
+            handleSubmit("http://copacabanastock.com:5000/api/pick-stock", {
               name: formData.name,
               amount: parseFloat(formData.amount),
             });
@@ -276,7 +276,7 @@ const Stock = () => {
           handleCloseForm={handleCloseForm}
           handleSubmit={(e) => {
             e.preventDefault();
-            handleSubmit("http://localhost:5000/api/delete-stock", {
+            handleSubmit("http://copacabanastock.com:5000/api/delete-stock", {
               name: formData.name,
             });
           }}
