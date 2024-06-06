@@ -7,11 +7,12 @@ const {
   renameFileAsync,
   getCurrentDateTime,
 } = require("../utils/fileUtils");
+const { access } = require("fs");
 
 const router = express.Router();
 const filePaths = [
   path.join(__dirname, "./../database/DataStock/data-1.json"),
-  path.join(__dirname, "./../database/DataStock/data-1.json"),
+  path.join(__dirname, "./../database/DataHistory/data.json"),
   path.join(__dirname, "./../database/DataUsers/user-state.json"),
 ];
 
@@ -20,7 +21,7 @@ router.post("/add-new-stock", upload.single("image"), async (req, res) => {
   const image = req.file ? req.file.path : null;
   const newImagePath = path.join(
     __dirname,
-    "./../src/database/DataImg/",
+    "../../public/img/",
     name + path.extname(req.file.originalname)
   );
 
@@ -45,12 +46,12 @@ router.post("/add-new-stock", upload.single("image"), async (req, res) => {
       amount: parseFloat(amount),
       status: amount > 0 ? "In Stock" : "Out Stock",
       category,
-      imageUrl: `./../src/database/DataImg/${name}${path.extname(req.file.originalname)}`,
+      imageUrl: `./img/${name}${path.extname(req.file.originalname)}`,
       date,
     };
 
     stockData1.push(newItem);
-    await writeFileAsync([filePaths[0]], stockData1);
+    await writeFileAsync(filePaths[0], stockData1);
     await renameFileAsync(image, newImagePath);
 
     const newItemWithDateTime = {
@@ -66,7 +67,7 @@ router.post("/add-new-stock", upload.single("image"), async (req, res) => {
     const data2 = await readFileAsync(filePaths[1]);
     const stockData2 = JSON.parse(data2);
     stockData2.push(newItemWithDateTime);
-    await writeFileAsync([filePaths[1]], stockData2);
+    await writeFileAsync(filePaths[1], stockData2);
 
     res.json({ message: "Stock added successfully", item: newItem });
   } catch (err) {
@@ -99,7 +100,7 @@ router.post("/update-stock", async (req, res) => {
       }
       return item;
     });
-    await writeFileAsync([filePaths[0]], stockData1);
+    await writeFileAsync(filePaths[0], stockData1);
     const { date, time } = getCurrentDateTime();
     const newItemWithDateTime = {
       name,
@@ -114,7 +115,7 @@ router.post("/update-stock", async (req, res) => {
     const data2 = await readFileAsync(filePaths[1]);
     const stockData2 = JSON.parse(data2);
     stockData2.push(newItemWithDateTime);
-    await writeFileAsync([filePaths[1]], stockData2);
+    await writeFileAsync(filePaths[1], stockData2);
     res.json({ message: "Stock updated successfully" });
   } catch (err) {
     console.error("Error handling request:", err);
@@ -134,7 +135,7 @@ router.post("/delete-stock", async (req, res) => {
       return res.status(404).json({ message: "Item not found" });
     }
     const newStockData1 = stockData1.filter((item) => item.name !== name);
-    await writeFileAsync([filePaths[0]], newStockData1);
+    await writeFileAsync(filePaths[0], newStockData1);
 
     const { date, time } = getCurrentDateTime();
     const newItemWithDateTime = {
@@ -149,7 +150,7 @@ router.post("/delete-stock", async (req, res) => {
     const data2 = await readFileAsync(filePaths[1]);
     const stockData2 = JSON.parse(data2);
     stockData2.push(newItemWithDateTime);
-    await writeFileAsync([filePaths[1]], stockData2);
+    await writeFileAsync(filePaths[1], stockData2);
     res.json({ message: "Stock deleted successfully" });
   } catch (err) {
     console.error("Error handling request:", err);
@@ -181,7 +182,7 @@ router.post("/pick-stock", async (req, res) => {
       }
       return item;
     });
-    await writeFileAsync([filePaths[0]], stockData1);
+    await writeFileAsync(filePaths[0], stockData1);
     const { date, time } = getCurrentDateTime();
     const newItemWithDateTime = {
       name,
@@ -195,7 +196,7 @@ router.post("/pick-stock", async (req, res) => {
     const data2 = await readFileAsync(filePaths[1]);
     const stockData2 = JSON.parse(data2);
     stockData2.push(newItemWithDateTime);
-    await writeFileAsync([filePaths[1]], stockData2);
+    await writeFileAsync(filePaths[1], stockData2);
     res.json({ message: "Stock picked successfully" });
   } catch (err) {
     console.error("Error handling request:", err);
@@ -204,7 +205,7 @@ router.post("/pick-stock", async (req, res) => {
 });
 
 router.post("/user-state", async (req, res) => {
-  const { name } = req.body;
+  const { name, access } = req.body;
   try {
     console.log("Received request with name:", name);
     const data1Path = path.join(__dirname, "./../database/DataUsers/data.json");
@@ -220,9 +221,10 @@ router.post("/user-state", async (req, res) => {
     const username = [
       {
         name: name,
+        "access": access
       },
     ];
-    await writeFileAsync([data2Path], username);
+    await writeFileAsync(data2Path, username);
 
     console.log("User state updated successfully");
     res.json({ message: "Data updated successfully", data: name });
@@ -261,7 +263,7 @@ router.post("/filter-datahistory", async (req, res) => {
 
     data.selectedDates.push(...selectedDates);
 
-    await writeFileAsync([dataFilePath], data);
+    await writeFileAsync(dataFilePath, data);
     console.log("Data updated successfully");
 
     res.json({ message: "Data updated successfully", data: selectedDates });

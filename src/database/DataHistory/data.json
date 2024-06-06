@@ -151,5 +151,68 @@
     "time": "10:49:01",
     "action": "Picked",
     "user": "Rinradee Phalikun"
+  },
+  {
+    "name": "Test",
+    "imageUrl": "/img/Test.png",
+    "amount": 5,
+    "date": "06/06/2024",
+    "time": "15:35:59",
+    "action": "Added",
+    "user": "Siwat Sroisuwan"
+  },
+  {
+    "name": "Test",
+    "imageUrl": "/img/Test.png",
+    "amount": 10,
+    "date": "06/06/2024",
+    "time": "15:37:54",
+    "action": "Added",
+    "user": "Siwat Sroisuwan"
+  },
+  {
+    "name": "Test1",
+    "imageUrl": "./img/Test1.png",
+    "amount": 5,
+    "date": "06/06/2024",
+    "time": "16:02:38",
+    "action": "Added",
+    "user": "Siwat Sroisuwan"
+  },
+  {
+    "name": "Test1",
+    "imageUrl": "./img/Test1.png",
+    "amount": 0,
+    "date": "06/06/2024",
+    "time": "16:03:08",
+    "action": "Deleted",
+    "user": "Siwat Sroisuwan"
+  },
+  {
+    "name": "Test",
+    "imageUrl": "/img/Test.png",
+    "amount": 15,
+    "date": "06/06/2024",
+    "time": "18:35:50",
+    "action": "Added",
+    "user": "Siwat Sroisuwan"
+  },
+  {
+    "name": "Test",
+    "imageUrl": "/img/Test.png",
+    "amount": 30,
+    "date": "06/06/2024",
+    "time": "18:36:05",
+    "action": "Added",
+    "user": "Siwat Sroisuwan"
+  },
+  {
+    "name": "Test",
+    "imageUrl": "/img/Test.png",
+    "amount": 25,
+    "date": "06/06/2024",
+    "time": "18:57:26",
+    "action": "Picked",
+    "user": "Siwat Sroisuwan"
   }
 ]

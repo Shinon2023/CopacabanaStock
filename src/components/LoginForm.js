@@ -1,41 +1,20 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./main.css";
 import "./tailwind.css";
+import profileData from './../database/DataUsers/data.json';
 
 const LoginForm = ({ onLogin }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [profiledata, setprofiledata] = useState([]);
+  const [users, setUsers] = useState([]);
 
-  async function fetchData() {
-    const url =
-      "https://copacabana-stock-api.vercel.app/api/database-datausers-profile-data";
+  useEffect(() => {
+    setUsers(profileData);
+  }, []);
 
-    try {
-      const response = await fetch(url); // Send GET request to the URL
-      if (!response.ok) {
-        // Check if the request was successful
-        throw new Error("Network response was not ok " + response.statusText);
-      }
-      const data = await response.json(); // Parse JSON data
-      return data; // Return data
-    } catch (error) {
-      console.error(
-        "There has been a problem with your fetch operation:",
-        error
-      );
-      return null; // Return null if there's an error
-    }
-  }
-
-  fetchData().then((data) => {
-    setprofiledata(data);
-  });
-  
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      const users = profiledata;
       const real_name = users.find((user) => user.username === username);
       if (!real_name) {
         throw new Error("User not found");
@@ -48,7 +27,7 @@ const LoginForm = ({ onLogin }) => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ name: real_name["name"] }), // Correct the body
+        body: JSON.stringify({ name: real_name["name"], "access": real_name["access"] }), // Correct the body
       });
 
       if (!apiResponse.ok) {

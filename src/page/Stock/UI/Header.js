@@ -8,7 +8,9 @@ const Header = ({
   handleDeleteButtonClick,
   generatePdf,
   generateXlsx,
+  access,
 }) => {
+  console.log(access)
   return (
     <header className="p-4 bg-white shadow-md flex items-center justify-between">
       <input
@@ -19,24 +21,28 @@ const Header = ({
         className="px-4 py-2 border rounded"
       />
       <div>
-        <button
-          onClick={handlePickedButtonClick}
-          className="px-4 py-2 bg-green-500 text-white rounded"
-        >
-          Pick
-        </button>
-        <button
-          onClick={handleAddedButtonClick}
-          className="px-4 py-2 bg-blue-500 text-white rounded ml-2"
-        >
-          Add
-        </button>
-        <button
-          onClick={handleDeleteButtonClick}
-          className="px-4 py-2 bg-red-500 text-white rounded ml-2"
-        >
-          Delete
-        </button>
+        {access !== "viewers" && (
+          <>
+            <button
+              onClick={handlePickedButtonClick}
+              className="px-4 py-2 bg-green-500 text-white rounded"
+            >
+              Pick
+            </button>
+            <button
+              onClick={handleAddedButtonClick}
+              className="px-4 py-2 bg-blue-500 text-white rounded ml-2"
+            >
+              Add
+            </button>
+            <button
+              onClick={handleDeleteButtonClick}
+              className="px-4 py-2 bg-red-500 text-white rounded ml-2"
+            >
+              Delete
+            </button>
+          </>
+        )}
         <button
           onClick={generatePdf}
           className="px-4 py-2 bg-purple-500 text-white rounded ml-2"

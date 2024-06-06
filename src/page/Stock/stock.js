@@ -15,6 +15,7 @@ import "jspdf-autotable";
 import * as XLSX from "xlsx";
 import "../../components/main.css";
 import "../../components/tailwind.css";
+import userState from "./../../database/DataUsers/user-state.json"; // Import JSON
 
 const Stock = () => {
   const [reversedData, setReversedData] = useState([]);
@@ -28,8 +29,14 @@ const Stock = () => {
     amount: 0,
     image: null,
   });
+  const [access, setAccess] = useState("");
 
   useEffect(() => {
+    const user = userState.find(u => u.name === "Siwat Sroisuwan");
+    if (user) {
+      setAccess(user.access);
+    }
+
     const initialData = getAllStockData(searchQuery, selectedCategory);
     if (initialData.length > 0) {
       setFormData((prevFormData) => ({
@@ -120,7 +127,6 @@ const Stock = () => {
   };
 
   const generateXlsx = () => {
-    // Ensure the correct order of columns
     const filteredData = reversedData.map(({ imageUrl, ...rest }) => ({
       "#": rest["#"],
       "name": rest["name"],
@@ -130,12 +136,10 @@ const Stock = () => {
       "date": rest["date"]
     }));
 
-    // Create the worksheet and workbook
     const worksheet = XLSX.utils.json_to_sheet(filteredData);
     const workbook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(workbook, worksheet, "Stock Data");
 
-    // Write the workbook to file
     XLSX.writeFile(workbook, "stock_data.xlsx");
   };
 
@@ -159,128 +163,135 @@ const Stock = () => {
             handlePickedButtonClick={() => handleFormVisibility("PickForm")}
             handleAddedButtonClick={handleAddedButtonClick}
             handleDeleteButtonClick={handleDeleteButtonClick}
-            generatePdf={generatePdf} // Pass generatePdf to Header
-            generateXlsx={generateXlsx} // Pass generateXlsx to Header
+            generatePdf={generatePdf}
+            generateXlsx={generateXlsx}
+            access={access}
           />
           <main className="flex-1 p-4">
             <div className="bg-white p-6 rounded-lg h-full border-dashed border-2 border-gray-300 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               <AllStock
                 category={searchQuery}
                 selectedCategory={selectedCategory}
-                setReversedData={setReversedData} // Set reversed data
+                setReversedData={setReversedData}
               />
             </div>
           </main>
         </div>
       </div>
 
-      {visibleForm === "Addchoice" && (
-        <Addchoice
-          handleAddNewStockClick={() =>
-            handleFormVisibility("AddchoiceCategory")
-          }
-          handleAddExistingStockClick={() => handleFormVisibility("AddForm")}
-          handleCloseForm={handleCloseForm}
-        />
-      )}
+      {access === "admin" || access === "key" ? (
+        <>
+          {visibleForm === "Addchoice" && (
+            <Addchoice
+              handleAddNewStockClick={() =>
+                handleFormVisibility("AddchoiceCategory")
+              }
+              handleAddExistingStockClick={() => handleFormVisibility("AddForm")}
+              handleCloseForm={handleCloseForm}
+            />
+          )}
 
-      {visibleForm === "AddchoiceCategory" && (
-        <AddchoiceCategory
-          handleAddNewCategoryClick={() =>
-            handleFormVisibility("AddNewItemFormNew")
-          }
-          handleAddExistingCategoryClick={() =>
-            handleFormVisibility("AddNewItemForm")
-          }
-          handleCloseForm={handleCloseForm}
-        />
-      )}
+          {visibleForm === "AddchoiceCategory" && (
+            <AddchoiceCategory
+              handleAddNewCategoryClick={() =>
+                handleFormVisibility("AddNewItemFormNew")
+              }
+              handleAddExistingCategoryClick={() =>
+                handleFormVisibility("AddNewItemForm")
+              }
+              handleCloseForm={handleCloseForm}
+            />
+          )}
 
-      {visibleForm === "AddForm" && (
-        <AddForm
-          formData={formData}
-          filteredNames={filteredNames}
-          handleInputChange={handleInputChange}
-          handleCloseForm={handleCloseForm}
-          handleSubmit={(e) => {
-            e.preventDefault();
-            handleSubmit("http://copacabanastock.com:5000/api/update-stock", {
-              name: formData.name,
-              amount: parseFloat(formData.amount),
-            });
-          }}
-        />
-      )}
+          {visibleForm === "AddForm" && (
+            <AddForm
+              formData={formData}
+              filteredNames={filteredNames}
+              handleInputChange={handleInputChange}
+              handleCloseForm={handleCloseForm}
+              handleSubmit={(e) => {
+                e.preventDefault();
+                handleSubmit("http://localhost:5000/api/update-stock", {
+                  name: formData.name,
+                  amount: parseFloat(formData.amount),
+                });
+              }}
+            />
+          )}
 
-      {visibleForm === "AddNewItemForm" && (
-        <AddNewItemFormnew
-          formData={formData}
-          handleInputChange={handleInputChange}
-          handleFileChange={handleFileChange}
-          handleCloseForm={handleCloseForm}
-          handleSubmit={(e) => {
-            e.preventDefault();
-            const formDataToSubmit = new FormData();
-            formDataToSubmit.append("name", formData.name);
-            formDataToSubmit.append("amount", formData.amount);
-            formDataToSubmit.append("image", formData.image);
-            handleSubmit(
-              "http://copacabanastock.com:5000/api/add-new-stock",
-              formDataToSubmit
-            );
-          }}
-        />
-      )}
+          {visibleForm === "AddNewItemForm" && (
+            <AddNewItemFormnew
+              formData={formData}
+              handleInputChange={handleInputChange}
+              handleFileChange={handleFileChange}
+              handleCloseForm={handleCloseForm}
+              handleSubmit={(e) => {
+                e.preventDefault();
+                const formDataToSubmit = new FormData();
+                formDataToSubmit.append("name", formData.name);
+                formDataToSubmit.append("amount", formData.amount);
+                formDataToSubmit.append("image", formData.image);
+                handleSubmit(
+                  "http://localhost:5000/api/add-new-stock",
+                  formDataToSubmit
+                );
+              }}
+            />
+          )}
 
-      {visibleForm === "AddNewItemFormNew" && (
-        <AddNewItemForm
-          formData={formData}
-          handleInputChange={handleInputChange}
-          handleFileChange={handleFileChange}
-          handleCloseForm={handleCloseForm}
-          handleSubmit={(e) => {
-            e.preventDefault();
-            const formDataToSubmit = new FormData();
-            formDataToSubmit.append("name", formData.name);
-            formDataToSubmit.append("amount", formData.amount);
-            formDataToSubmit.append("image", formData.image);
-            handleSubmit(
-              "http://copacabanastock.com:5000/api/add-new-stock",
-              formDataToSubmit
-            );
-          }}
-        />
-      )}
+          {visibleForm === "AddNewItemFormNew" && (
+            <AddNewItemForm
+              formData={formData}
+              handleInputChange={handleInputChange}
+              handleFileChange={handleFileChange}
+              handleCloseForm={handleCloseForm}
+              handleSubmit={(e) => {
+                e.preventDefault();
+                const formDataToSubmit = new FormData();
+                formDataToSubmit.append("name", formData.name);
+                formDataToSubmit.append("amount", formData.amount);
+                formDataToSubmit.append("image", formData.image);
+                handleSubmit(
+                  "http://localhost:5000/api/add-new-stock",
+                  formDataToSubmit
+                );
+              }}
+            />
+          )}
 
-      {visibleForm === "PickForm" && (
-        <PickForm
-          formData={formData}
-          filteredNames={filteredNames}
-          handleInputChange={handleInputChange}
-          handleCloseForm={handleCloseForm}
-          handleSubmit={(e) => {
-            e.preventDefault();
-            handleSubmit("http://copacabanastock.com:5000/api/pick-stock", {
-              name: formData.name,
-              amount: parseFloat(formData.amount),
-            });
-          }}
-        />
-      )}
+          {visibleForm === "PickForm" && (
+            <PickForm
+              formData={formData}
+              filteredNames={filteredNames}
+              handleInputChange={handleInputChange}
+              handleCloseForm={handleCloseForm}
+              handleSubmit={(e) => {
+                e.preventDefault();
+                handleSubmit("http://localhost:5000/api/pick-stock", {
+                  name: formData.name,
+                  amount: parseFloat(formData.amount),
+                });
+              }}
+            />
+          )}
 
-      {showDeleteButton && (
-        <DeleteForm
-          formData={formData}
-          filteredNames={filteredNames}
-          handleInputChange={handleInputChange}
-          handleCloseForm={handleCloseForm}
-          handleSubmit={(e) => {
-            e.preventDefault();
-            handleSubmit("http://copacabanastock.com:5000/api/delete-stock", {
-              name: formData.name,
-            });
-          }}
-        />
+          {showDeleteButton && (
+            <DeleteForm
+              formData={formData}
+              filteredNames={filteredNames}
+              handleInputChange={handleInputChange}
+              handleCloseForm={handleCloseForm}
+              handleSubmit={(e) => {
+                e.preventDefault();
+                handleSubmit("http://localhost:5000/api/delete-stock", {
+                  name: formData.name,
+                });
+              }}
+            />
+          )}
+        </>
+      ) : (
+        <p>You do not have access to this functionality.</p>
       )}
     </>
   );

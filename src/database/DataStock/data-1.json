@@ -2,8 +2,8 @@
   {
     "#": 1,
     "name": "Test",
-    "amount": 0,
-    "status": "Out Stock",
+    "amount": 35,
+    "status": "In Stock",
     "category": "Test",
     "imageUrl": "/img/Test.png",
     "date": "29/05/2024"

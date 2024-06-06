@@ -2,11 +2,19 @@
   {
     "username": "user1",
     "name" : "Siwat Sroisuwan",
-    "password": "password1"
+    "password": "password1",
+    "access" : "viewers"
   },
   {
     "username": "siwat61719@gmail.com",
     "name" : "Rinradee Phalikun",
-    "password": "64020119Cggsg"
+    "password": "64020119Cggsg",
+    "access" : "key"
+  },
+  {
+    "username": "admin1",
+    "name" : "admin1",
+    "password": "1234",
+    "access" : "admin"
   }
 ]
