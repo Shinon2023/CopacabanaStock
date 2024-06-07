@@ -32,10 +32,7 @@ const Stock = () => {
   const [access, setAccess] = useState("");
 
   useEffect(() => {
-    const user = userState.find(u => u.name === "Siwat Sroisuwan");
-    if (user) {
-      setAccess(user.access);
-    }
+    setAccess(userState[0].access);
 
     const initialData = getAllStockData(searchQuery, selectedCategory);
     if (initialData.length > 0) {
