@@ -4,7 +4,7 @@ const upload = require("../middlewares/multerConfig");
 const {
   readFileAsync,
   writeFileAsync,
-  renameFileAsync,
+  renameFileAsyncrenameFileAsyncrenameFileAsync
   getCurrentDateTime,
 } = require("../utils/fileUtils");
 
